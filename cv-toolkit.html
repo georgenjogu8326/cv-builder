@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Free CV Builder</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{--bg:#F5F7F9;--surface:#fff;--ink:#14213D;--muted:#55627A;--line:#D5DBE3;--accent:#0B7F7F;--accent-ink:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1626;--surface:#17233A;--ink:#EAF0F8;--muted:#9FB0C8;--line:#2B3A57;--accent:#36B7B0;--accent-ink:#06201F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1626;--surface:#17233A;--ink:#EAF0F8;--muted:#9FB0C8;--line:#2B3A57;--accent:#36B7B0;--accent-ink:#06201F;color-scheme:dark}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
+header{max-width:1180px;margin:0 auto;padding:28px 20px 8px}
+h1{font:800 clamp(28px,4.5vw,44px)/1.1 "Bricolage Grotesque",system-ui,sans-serif;margin:0 0 8px;letter-spacing:-.02em}
+header p{margin:0;color:var(--muted);max-width:56ch}
+main{max-width:1180px;margin:0 auto;padding:16px 20px 40px;display:grid;gap:24px;grid-template-columns:minmax(0,420px) minmax(0,1fr);align-items:start}
+@media (max-width:860px){main{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+fieldset{border:0;margin:0 0 14px;padding:0}
+legend{font:600 15px "Bricolage Grotesque",system-ui,sans-serif;padding:0;margin-bottom:8px}
+label{display:block;font-size:14px;color:var(--muted);margin:10px 0 4px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:9px 10px}
+textarea{resize:vertical;min-height:84px}
+input:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+small{display:block;color:var(--muted);margin-top:4px;font-size:13px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.tpl button{flex:1;min-width:90px;font:600 14px inherit;font-family:inherit;padding:9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer}
+.tpl button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.dl{width:100%;margin-top:6px;padding:13px;font:600 16px "Source Sans 3",sans-serif;background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;cursor:pointer}
+.stage{overflow-x:auto}
+.paper{background:#fff;color:#1b1f27;width:100%;max-width:794px;min-height:600px;margin:0 auto;padding:36px 40px;box-shadow:0 1px 3px rgba(0,0,0,.25);font:400 14px/1.45 "Source Sans 3",system-ui,sans-serif}
+.paper h2{font:800 28px/1.1 "Bricolage Grotesque",system-ui,sans-serif;margin:0}
+.paper .role{margin:2px 0 6px;font-weight:600;color:#0B7F7F}
+.paper .contact{color:#556;font-size:13px;margin-bottom:14px}
+.paper h3{font:800 13px "Bricolage Grotesque",system-ui,sans-serif;margin:16px 0 5px;padding-bottom:3px;border-bottom:2px solid #0B7F7F;color:#14213D}
+.paper p{margin:0 0 6px}
+.paper .sub{font-weight:600;margin-top:8px}
+.paper ul{margin:2px 0 6px;padding-left:18px}
+.paper .chips span{display:inline-block;margin:0 6px 6px 0;padding:2px 9px;border:1px solid #B9C4D2;border-radius:99px;font-size:13px}
+.paper.modern{border-top:14px solid #14213D}
+.paper.modern h2{color:#14213D}
+.paper.modern h3{border:0;color:#0B7F7F;font-size:14px}
+.paper.classic{font-family:Georgia,"Times New Roman",serif}
+.paper.classic h2,.paper.classic h3{font-family:Georgia,serif;font-weight:700}
+.paper.classic h2{text-align:center}.paper.classic .role,.paper.classic .contact{text-align:center}
+.paper.classic h3{border-bottom:1px solid #222;color:#222;text-transform:none}
+.paper.compact{font-size:13px;padding:26px 30px}
+.paper.compact h2{font-size:23px}
+.paper.compact h3{margin-top:11px}
+@media print{
+ @page{margin:12mm}
+ body{background:#fff}
+ header,.tabs,.panel,.hint{display:none!important}
+ main{display:block;padding:0;max-width:none}
+ .stage{overflow:visible}
+ .paper{box-shadow:none;max-width:none;padding:0;border-top:0}
+ .paper.modern{border-top:0}
+}
+.hint{max-width:1180px;margin:0 auto;padding:0 20px 28px;color:var(--muted);font-size:14px}
+[hidden]{display:none!important}
+.tabs{max-width:1180px;margin:0 auto;padding:12px 20px 0;display:flex;gap:8px}
+.tabs button{flex:none;min-width:130px}
+.paper.letter p{margin:0 0 12px}
+.paper.letter{font-size:15px;line-height:1.55}
+</style>
+</head>
+<body>
+<header>
+  <h1>Build a clean CV in minutes. Free.</h1>
+  <p>Fill in your details, pick a layout, and save it as a PDF. Nothing is uploaded. Your CV stays on your device.</p>
+</header>
+<nav class="tabs tpl" id="tabs" aria-label="Choose a tool">
+  <button type="button" data-v="cv" aria-pressed="true">CV builder</button>
+  <button type="button" data-v="cl" aria-pressed="false">Cover letter</button>
+</nav>
+<main id="cvm">
+  <section class="panel" aria-label="Your details">
+    <fieldset class="tpl"><legend>Layout</legend>
+      <div class="row" id="tpls">
+        <button type="button" data-t="modern" aria-pressed="true">Modern</button>
+        <button type="button" data-t="classic" aria-pressed="false">Classic</button>
+        <button type="button" data-t="compact" aria-pressed="false">Compact</button>
+      </div>
+    </fieldset>
+    <fieldset><legend>About you</legend>
+      <label for="name">Full name</label><input id="name" autocomplete="name">
+      <label for="title">Job title you want</label><input id="title">
+      <label for="email">Email</label><input id="email" type="email" autocomplete="email">
+      <label for="phone">Phone</label><input id="phone" autocomplete="tel">
+      <label for="loc">Town or city</label><input id="loc">
+      <label for="summary">Short summary</label><textarea id="summary"></textarea>
+      <small>Two or three sentences: what you do, what you are good at, what you want next.</small>
+    </fieldset>
+    <fieldset><legend>Experience</legend>
+      <textarea id="exp" rows="7"></textarea>
+      <small>Write a heading line for each job, then bullet lines starting with a dash (-).</small>
+    </fieldset>
+    <fieldset><legend>Education</legend>
+      <textarea id="edu"></textarea>
+    </fieldset>
+    <fieldset><legend>Skills</legend>
+      <input id="skills" aria-label="Skills">
+      <small>Separate skills with commas.</small>
+    </fieldset>
+    <button class="dl" id="dl" type="button">Save as PDF</button>
+    <small>In the print window, choose “Save as PDF” as the destination.</small>
+  </section>
+  <section class="stage" aria-label="CV preview">
+    <article class="paper modern" id="paper"></article>
+  </section>
+</main>
+<main id="clm" hidden>
+  <section class="panel" aria-label="Cover letter details">
+    <fieldset><legend>The job</legend>
+      <label for="company">Company name</label><input id="company">
+      <label for="role">Job you are applying for</label><input id="role">
+      <label for="mgr">Hiring manager’s name (optional)</label><input id="mgr">
+    </fieldset>
+    <fieldset><legend>Your pitch</legend>
+      <label for="str">Your best achievement or strength</label><textarea id="str"></textarea>
+      <small>Example: In my current role I handle 60+ customer queries a day and keep satisfaction above 95%.</small>
+      <label for="why">Why this company?</label><textarea id="why"></textarea>
+      <small>Finish the sentence “I am drawn to the company because…” Example: it helps small businesses get online.</small>
+    </fieldset>
+    <button class="dl" id="dl2" type="button">Save as PDF</button>
+    <small>Your name and contact details come from the CV tab.</small>
+  </section>
+  <section class="stage" aria-label="Letter preview"><article class="paper letter" id="letter"></article></section>
+</main>
+<p class="hint">Tip: keep your CV to one page, use a professional email address, and tailor the summary to each job you apply for.</p>
+<script>
+(function(){
+  var ids=['name','title','email','phone','loc','summary','exp','edu','skills'];
+  var sample={name:'Amina Wanjiru',title:'Customer Service Officer',email:'amina.wanjiru@email.com',phone:'+254 700 000 000',loc:'Nairobi, Kenya',
+  summary:'Friendly and organised customer service officer with three years of experience resolving client issues quickly. Looking for a role where I can grow into team leadership.',
+  exp:'Customer Service Agent, Sunrise Telecom (2022 – Present)\n- Handle 60+ customer calls and chats daily with a 95% satisfaction score\n- Trained 4 new team members on the complaints system\n\nSales Assistant, Green Mart (2020 – 2022)\n- Managed the till and stock counts for a busy branch',
+  edu:'Diploma in Business Management, Kenya Institute of Management (2020)\nKCSE, Mean grade B (2018)',
+  skills:'Customer care, Microsoft Excel, Communication, Problem solving, Swahili, English'};
+  var tpl='modern',saved=null;
+  try{saved=JSON.parse(localStorage.getItem('cvdata')||'null')}catch(e){}
+  var data=saved&&saved.d?saved.d:sample;
+  if(saved&&saved.t)tpl=saved.t;
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function block(txt){
+    var out='',open=false;
+    txt.split('\n').forEach(function(l){
+      l=l.trim();
+      if(l.indexOf('-')===0){if(!open){out+='<ul>';open=true}out+='<li>'+esc(l.replace(/^-\s*/,''))+'</li>'}
+      else{if(open){out+='</ul>';open=false}if(l)out+='<p class="sub">'+esc(l)+'</p>'}
+    });
+    return out+(open?'</ul>':'');
+  }
+  function lines(txt){return txt.split('\n').filter(function(l){return l.trim()}).map(function(l){return '<p>'+esc(l.trim())+'</p>'}).join('')}
+  function render(){
+    var d=data,p=document.getElementById('paper');
+    var contact=[d.email,d.phone,d.loc].filter(Boolean).map(esc).join(' | ');
+    var h='<h2>'+esc(d.name||'Your name')+'</h2>';
+    if(d.title)h+='<div class="role">'+esc(d.title)+'</div>';
+    if(contact)h+='<div class="contact">'+contact+'</div>';
+    if(d.summary)h+='<h3>Profile</h3><p>'+esc(d.summary)+'</p>';
+    if(d.exp.trim())h+='<h3>Experience</h3>'+block(d.exp);
+    if(d.edu.trim())h+='<h3>Education</h3>'+lines(d.edu);
+    var sk=d.skills.split(',').map(function(s){return s.trim()}).filter(Boolean);
+    if(sk.length)h+='<h3>Skills</h3><div class="chips">'+sk.map(function(s){return '<span>'+esc(s)+'</span>'}).join('')+'</div>';
+    p.innerHTML=h;p.className='paper '+tpl;
+    document.title=(d.name?d.name+' – CV':'Free CV Builder');
+  }
+  function save(){try{localStorage.setItem('cvdata',JSON.stringify({d:data,t:tpl}))}catch(e){}}
+  ids.forEach(function(id){
+    var el=document.getElementById(id);el.value=data[id]||'';
+    el.addEventListener('input',function(){data[id]=el.value;render();save()});
+  });
+  document.getElementById('tpls').addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;tpl=b.dataset.t;
+    [].forEach.call(this.children,function(c){c.setAttribute('aria-pressed',c===b?'true':'false')});
+    render();save();
+  });
+  [].forEach.call(document.getElementById('tpls').children,function(c){c.setAttribute('aria-pressed',c.dataset.t===tpl?'true':'false')});
+  document.getElementById('dl').addEventListener('click',function(){window.print()});
+  var L={company:'',role:'',mgr:'',str:'',why:''};
+  try{var ls=JSON.parse(localStorage.getItem('cvletter')||'null');if(ls)L=ls}catch(e){}
+  function dot(s){s=s.trim();return /[.!?]$/.test(s)?s:s+'.'}
+  function renderL(){
+    var d=data,co=L.company||'[Company]',ro=L.role||'[Job title]';
+    var h='<p><strong>'+esc(d.name||'Your name')+'</strong><br>'+[d.email,d.phone,d.loc].filter(Boolean).map(esc).join('<br>')+'</p>';
+    h+='<p>Dear '+esc(L.mgr||'Hiring Manager')+',</p>';
+    h+='<p>I am writing to apply for the '+esc(ro)+' position at '+esc(co)+'.</p>';
+    if(L.str)h+='<p>'+esc(dot(L.str))+'</p>';
+    if(L.why)h+='<p>I am drawn to '+esc(co)+' because '+esc(dot(L.why))+'</p>';
+    h+='<p>I would welcome the chance to discuss how I can contribute to your team. Thank you for your time and consideration.</p><p>Yours sincerely,<br>'+esc(d.name||'Your name')+'</p>';
+    document.getElementById('letter').innerHTML=h;
+  }
+  ['company','role','mgr','str','why'].forEach(function(id){
+    var el=document.getElementById(id);el.value=L[id]||'';
+    el.addEventListener('input',function(){L[id]=el.value;renderL();try{localStorage.setItem('cvletter',JSON.stringify(L))}catch(e){}});
+  });
+  var tabs=document.getElementById('tabs');
+  tabs.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    var cl=b.dataset.v==='cl';
+    document.getElementById('cvm').hidden=cl;document.getElementById('clm').hidden=!cl;
+    [].forEach.call(tabs.children,function(c){c.setAttribute('aria-pressed',c===b?'true':'false')});
+    if(cl){renderL();document.title='Cover letter'}else{render()}
+  });
+  document.getElementById('dl2').addEventListener('click',function(){window.print()});
+  render();
+})();
+</script>
+</body>
+</html>
